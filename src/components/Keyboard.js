@@ -1,7 +1,8 @@
 // download dszna (ES7+ extension to use rfce to make auto import functions)
 import React, {useContext, useCallback, useEffect} from 'react';
 import {AppContext} from '../App';
-import Key from "./Key"
+import Key from "./Key";
+
 function Keyboard() {
   const { onEnter, onDelete, onSelectLetter} = useContext(AppContext);
   //Each row of the keyboard is represented as an array
@@ -14,7 +15,7 @@ function Keyboard() {
 
   const handleKeyboard = useCallback((event) =>  {
     if (event.key === "Enter" ){
-      onEnter()
+      onEnter();
     }
     else if(event.key ==="Backspace"){
       onDelete();
@@ -46,9 +47,9 @@ function Keyboard() {
     
     return () => {
       document.removeEventListener("keydown", handleKeyboard);
-
     };
   }, [handleKeyboard])
+  
   return (
     <div className="keyboard" onKeyDown= {handleKeyboard}>
       <div className = "line1">
