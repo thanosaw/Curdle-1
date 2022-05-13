@@ -1,5 +1,8 @@
 /*App*/
 import './App.css';
+import React from 'react'
+// import React from 'react';
+import Register from './Register';
 import Board from "./components/Board";
 import Keyboard from "./components/Keyboard";
 import { boardDefault, generateWordSet } from "./Words";
@@ -65,6 +68,14 @@ function App() {
       <h1>
         Curdle
       </h1>
+
+      <nav>
+        <main className = "App">
+          <Register />
+
+        </main>
+      </nav>
+      
     </nav>
     <AppContext.Provider value = {{board, setBoard, currAttempt, setCurrAttempt, onSelectLetter, onDelete, onEnter, correctWord, setDisabledLetters, disabledLetters }}>
       <div className = "game"> 
