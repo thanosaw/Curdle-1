@@ -49,8 +49,30 @@ const Register = () => {
         setErrMsg('');
     }, [user, pwd, matchPwd])
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        //Security addition, not necessary
+        const v1 = USER_REGEX.test(user);
+        const v2 = PWD_REGEX.test(pwd);
+        if (!v1 || !v2){
+            setErrMsg("Invalid Input");
+            return'
+        }
+        console.log(user, pwd);
+        setSuccess(true);
+    }
 
     return (
+        <>
+        {success?(
+            <section>
+                <h1>Success!</h1>
+                <p>
+                    <a href="#">Sign In</a>
+                </p>
+            </section>
+        ) : (
+
         <section>
             <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">
                 {errMsg}
@@ -141,6 +163,8 @@ const Register = () => {
                         </span>
                     </p>
         </section>
+        )}
+        </>
     )
 }
 
