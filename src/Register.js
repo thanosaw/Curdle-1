@@ -1,7 +1,8 @@
 import React from 'react'
 import { useRef, useState, useEffect } from "react";
-import { faCheck, faTimes, faInfoCircle } from "@fontawesome/free-solid-svg-icons";
+import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from './api/axios';
 // when I installed it with npm I got a lot of errors, with yarn they were fixed
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
@@ -56,7 +57,7 @@ const Register = () => {
         const v2 = PWD_REGEX.test(pwd);
         if (!v1 || !v2){
             setErrMsg("Invalid Input");
-            return'
+            return;
         }
         console.log(user, pwd);
         setSuccess(true);
