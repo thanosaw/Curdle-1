@@ -12,7 +12,7 @@ const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 // const REGISTER_URL = '/register';
 
 // handleSubmit issue will be fixed with the axios and backend stuff.. needs to do async or something like that
-
+const REGISTER_URL = '/register';
 
 const Register = () => {
     const userRef = useRef();
@@ -59,8 +59,30 @@ const Register = () => {
             setErrMsg("Invalid Input");
             return;
         }
-        console.log(user, pwd);
-        setSuccess(true);
+        try{
+            const response = await axios.post(REGISTER_URL, JSON.stringify({user, pwd}){
+                headers: { 'Content-type': 'application/json'},
+                withCredentials: true
+            }
+        );
+            console.log(response.data);
+            console.log(response.accessTooken);
+            setSuccess(true);
+            //clear input fields if we want. I don't think it's too necessary unless we want to do UI polishing.
+
+        } catch(err){
+            if (!err?.response){
+                setErrMsg("No Server response");
+            }
+            else if(err.response?.status === 409){
+                setErrMsg('Username Taken');
+
+            }
+            else{
+                setErrMsg('Registration failed! Try again?');
+            }
+            errRef.current.focus();
+        }
     }
 
     return (
