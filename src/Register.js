@@ -55,31 +55,34 @@ const Register = () => {
         //Security addition, not necessary
         const v1 = USER_REGEX.test(user);
         const v2 = PWD_REGEX.test(pwd);
-        if (!v1 || !v2){
-            setErrMsg("Invalid Input");
+        if (!v1 || !v2) {
+            setErrMsg("Invalid Entry");
             return;
         }
-        try{
-            const response = await axios.post(REGISTER_URL, JSON.stringify({user, pwd}){
-                headers: { 'Content-type': 'application/json'},
-                withCredentials: true
-            }
-        );
-            console.log(response.data);
-            console.log(response.accessTooken);
+        try {
+            const response = await axios.post(REGISTER_URL,
+                JSON.stringify({ user, pwd }),
+                {
+                    headers: { 'Content-Type': 'application/json' },
+                    withCredentials: true
+                }
+            );
+            console.log(response?.data);
+            console.log(response?.accessToken);
+            console.log(JSON.stringify(response))
             setSuccess(true);
-            //clear input fields if we want. I don't think it's too necessary unless we want to do UI polishing.
-
-        } catch(err){
-            if (!err?.response){
-                setErrMsg("No Server response");
-            }
-            else if(err.response?.status === 409){
+            //clear state and controlled inputs
+            //need value attrib on inputs for this
+            setUser('');
+            setPwd('');
+            setMatchPwd('');
+        } catch (err) {
+            if (!err?.response) {
+                setErrMsg('No Server Response');
+            } else if (err.response?.status === 409) {
                 setErrMsg('Username Taken');
-
-            }
-            else{
-                setErrMsg('Registration failed! Try again?');
+            } else {
+                setErrMsg('Registration Failed')
             }
             errRef.current.focus();
         }
