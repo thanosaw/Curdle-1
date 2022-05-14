@@ -67,9 +67,9 @@ const Register = () => {
                     withCredentials: true
                 }
             );
-            console.log(response?.data);
-            console.log(response?.accessToken);
-            console.log(JSON.stringify(response))
+            // console.log(response?.data);
+            // console.log(response?.accessToken);
+            // console.log(JSON.stringify(response))
             setSuccess(true);
             //clear state and controlled inputs
             //need value attrib on inputs for this
@@ -77,13 +77,13 @@ const Register = () => {
             setPwd('');
             setMatchPwd('');
         } catch (err) {
-            if (!err?.response) {
-                setErrMsg('No Server Response');
-            } else if (err.response?.status === 409) {
-                setErrMsg('Username Taken');
-            } else {
-                setErrMsg('Registration Failed')
-            }
+            // if (!err?.response) {
+            //     //setErrMsg('No Server Response');
+            // } else if (err.response?.status === 409) {
+            //     //setErrMsg('Username Taken');
+            // } else {
+            //     //setErrMsg('Registration Failed')
+            // }
             errRef.current.focus();
         }
     }
@@ -195,7 +195,6 @@ const Register = () => {
 }
 
 export default Register
-
 
 
 
