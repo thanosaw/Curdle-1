@@ -1,6 +1,7 @@
 /*Board*/
 import React from 'react';
 import Letter from "./Letter";
+
 // if issue of ../ appears just change the dots bc of the file hierarchy
 
 function Board() 

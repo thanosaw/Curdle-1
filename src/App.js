@@ -1,17 +1,19 @@
 /*App*/
 import './App.css';
-import React from 'react'
-// import React from 'react';
-import Register from './Register';
 import Board from "./components/Board";
 import Keyboard from "./components/Keyboard";
+import Auth from "./components/auth";
+import Dashboard from "./components/dashboard";
 import { boardDefault, generateWordSet } from "./Words";
 import { createContext, useEffect, useState } from "react";
+import { useUserContext } from './context/userContext';
+
 // ./'Words' it gives me an error so I changed it
 
 export const AppContext = createContext();
 
 function App() {
+  const { user, loading, error, logoutUser } = useUserContext();
   const [board, setBoard] = useState(boardDefault);
   const [currAttempt, setCurrAttempt] = useState({attempt: 0, letterPos: 0});
   const [wordSet, setWordSet] = useState(new Set());
@@ -61,31 +63,45 @@ function App() {
 
   };
 
-  
   return (
-    <div className="App"> 
-    <nav>
-      <h1>
-        Curdle
-      </h1>
-
-      <nav>
-        <main className = "App">
-          <Register />
-
-        </main>
-      </nav>
+    <div className="App">
+      {error && <p className="error">{error}</p>}
+      {loading ? <h2>Loading...</h2> : <> {user ? <><nav>
+        <h1>
+          Curdle
+        </h1>
+        <button onClick={logoutUser}>Log out</button> //LOGOUT NOT WORKING
+      </nav><AppContext.Provider value={{ board, setBoard, currAttempt, setCurrAttempt, onSelectLetter, onDelete, onEnter, correctWord, setDisabledLetters, disabledLetters }}>
+          <div className="game">
+            <Board />
+            <Keyboard />
+          </div>
+        </AppContext.Provider></>
+    
+     : <Auth />} </>}
       
-    </nav>
-    <AppContext.Provider value = {{board, setBoard, currAttempt, setCurrAttempt, onSelectLetter, onDelete, onEnter, correctWord, setDisabledLetters, disabledLetters }}>
-      <div className = "game"> 
-      <Board />
-      <Keyboard />
-      </div>
-    </AppContext.Provider>
-
+    
     </div>
   );
+  // return (
+    // <div className="App"> 
+     //<nav>
+    //   <h1>
+    //     Curdle
+    //   </h1>
+    // </nav>
+    // <AppContext.Provider value = {{board, setBoard, currAttempt, setCurrAttempt, onSelectLetter, onDelete, onEnter, correctWord, setDisabledLetters, disabledLetters }}>
+    //   <div className = "game"> 
+    //   <Board />
+    //   <Keyboard />
+    //   </div>
+    // </AppContext.Provider>
+
+    // </div>
+  // );
 }
+
+
+
 
 export default App;
