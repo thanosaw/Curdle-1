@@ -7,7 +7,7 @@ import Dashboard from "./components/dashboard";
 import { boardDefault, generateWordSet } from "./Words";
 import { createContext, useEffect, useState } from "react";
 import { useUserContext } from './context/userContext';
-
+import { logout } from "./firebase";
 // ./'Words' it gives me an error so I changed it
 
 export const AppContext = createContext();
@@ -58,27 +58,41 @@ function App() {
     }
 
     if(currWord === correctWord ) {
-      alert("Game Ended")
+      
+      alert("Game Ended");
     }
 
   };
 
+  async function handleLogout() {
+    
+    try {
+      await logout();
+    } catch {
+      alert("Error!");
+    }
+    
+  }
+
   return (
     <div className="App">
       {error && <p className="error">{error}</p>}
-      {loading ? <h2>Loading...</h2> : <> {user ? <><nav>
+      {loading ? <h2>Loading...</h2> : <> {user ? <>
+      <nav>
         <h1>
-          Curdle
+        {user.displayName}'s Curdle
         </h1>
-        <button onClick={logoutUser}>Log out</button> //LOGOUT NOT WORKING
       </nav><AppContext.Provider value={{ board, setBoard, currAttempt, setCurrAttempt, onSelectLetter, onDelete, onEnter, correctWord, setDisabledLetters, disabledLetters }}>
           <div className="game">
             <Board />
             <Keyboard />
+            <button onClick={handleLogout}>Log Out</button>
           </div>
-        </AppContext.Provider></>
-    
-     : <Auth />} </>}
+        </AppContext.Provider></> 
+        : <Auth />} </>}
+        {/* {loading ? <h2>Loading...</h2> : <> {user ? <Dashboard /> : <Auth />} </>} */}
+        
+     
       
     
     </div>

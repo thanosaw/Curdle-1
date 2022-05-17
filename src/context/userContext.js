@@ -57,6 +57,7 @@ export const UserContextProvider = ({ children }) => {
   };
 
   const logoutUser = () => {
+    auth.signOut();
     signOut(auth);
   };
 
